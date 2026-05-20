@@ -41,7 +41,7 @@ export default function Contact() {
             <div className="p-4 rounded-xl bg-black/40 border border-white/10 hover:border-blue-500 transition">
               <h3 className="text-blue-400 font-semibold">Phone</h3>
               <p className="text-gray-300 mt-2">
-                +8801780005688
+                
               </p>
             </div>
 
