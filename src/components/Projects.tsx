@@ -10,6 +10,12 @@ const projects = [
     color: "from-orange-500 to-pink-500",
   },
   {
+  title: "Timr.MR - Global Time Platform",
+  desc: "Built a production-ready global time platform with real-time clock synchronization, timezone conversion, dynamic city pages, countdown timers, stopwatch functionality, calendar integration, and responsive cross-device support using Next.js, TypeScript, Tailwind CSS, and Framer Motion.",
+  tag: "Full Stack + Real-Time",
+  color: "from-cyan-500 to-blue-500",
+},
+  {
     title: "Business Analytics Dashboard (Demo)",
     desc: "Designed a simulated analytics system using Looker and BigQuery-style SQL modeling to visualize revenue, product performance, and regional insights.",
     tag: "Looker + Data Analytics",
