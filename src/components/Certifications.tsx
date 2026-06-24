@@ -22,13 +22,17 @@ const certificates: Certificate[] = [
   },
 ];
 
-const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
-
 export default function Certifications() {
- 
+  // ✅ MOVE HERE (inside component)
+  const [selectedCert, setSelectedCert] =
+    useState<Certificate | null>(null);
 
   return (
-    <section className="relative bg-black text-white py-28 px-6 overflow-hidden">
+   <section
+  id="certifications"
+  className="relative bg-black text-white py-28 px-6 overflow-hidden scroll-mt-24"
+>
+    
       {/* Background Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.10),transparent_60%)]"></div>
 
@@ -69,7 +73,7 @@ export default function Certifications() {
         ))}
       </div>
 
-      {/* Certificate Modal */}
+      {/* Modal */}
       {selectedCert && (
         <div
           className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
@@ -79,7 +83,6 @@ export default function Certifications() {
             className="relative max-w-5xl w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => setSelectedCert(null)}
               className="absolute -top-12 right-0 text-white text-4xl hover:text-blue-400"
@@ -87,7 +90,6 @@ export default function Certifications() {
               ×
             </button>
 
-            {/* Certificate Image */}
             <Image
               src={selectedCert.image}
               alt={selectedCert.title}

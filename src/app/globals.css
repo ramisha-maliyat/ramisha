@@ -47,3 +47,6 @@ body {
 .animate-spin-slow:hover {
   animation-duration: 2s;
 }
+section {
+  scroll-margin-top: 90px;
+}

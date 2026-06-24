@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const timeline = [
   {
@@ -56,29 +56,30 @@ const timeline = [
     color: "from-yellow-500 to-orange-500",
   },
   {
-  type: "edu",
-  title: "JSC",
-  org: "Viqarunnisa Noon School",
-  time: "2015 | GPA: 5.00",
-  icon: "📙",
-  color: "from-indigo-400 to-blue-400",
-  minor: true,
-},
-{
-  type: "edu",
-  title: "PEC",
-  org: "Viqarunnisa Noon School",
-  time: "2012 | GPA: 5.00",
-  icon: "📒",
-  color: "from-gray-400 to-gray-500",
-  minor: true,
-},
+    type: "edu",
+    title: "JSC",
+    org: "Viqarunnisa Noon School",
+    time: "2015 | GPA: 5.00",
+    icon: "📙",
+    color: "from-indigo-400 to-blue-400",
+    minor: true,
+  },
+  {
+    type: "edu",
+    title: "PEC",
+    org: "Viqarunnisa Noon School",
+    time: "2012 | GPA: 5.00",
+    icon: "📒",
+    color: "from-gray-400 to-gray-500",
+    minor: true,
+  },
 ];
 
 export default function CareerTimeline() {
   const ref = useRef(null);
 
-  // scroll progress line
+  const [filter, setFilter] = useState("all"); // 👈 NEW
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -89,9 +90,18 @@ export default function CareerTimeline() {
     damping: 25,
   });
 
-  return (
-    <section id="career" ref={ref} className="relative bg-black text-white py-28 px-6 overflow-hidden">
+  // 👇 FILTER LOGIC (NO DATA CHANGE)
+  const filteredTimeline = timeline.filter((item) => {
+    if (filter === "all") return true;
+    return item.type === filter;
+  });
 
+  return (
+    <section
+      id="career"
+      ref={ref}
+      className="relative bg-black text-white py-28 px-6 overflow-hidden"
+    >
       {/* Background glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.08),transparent_60%)]"></div>
 
@@ -99,26 +109,41 @@ export default function CareerTimeline() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="text-5xl font-bold text-center mb-20"
+        className="text-5xl font-bold text-center mb-10"
       >
         Career Timeline
       </motion.h2>
 
-      <div className="relative max-w-5xl mx-auto">
+      {/* FILTER BUTTONS */}
+      <div className="flex justify-center gap-4 mb-14">
+        {["all", "work", "edu"].map((type) => (
+          <button
+            key={type}
+            onClick={() => setFilter(type)}
+            className={`px-4 py-2 rounded-full text-sm border transition
+              ${
+                filter === type
+                  ? "bg-white text-black"
+                  : "border-white/20 text-white/70 hover:text-white"
+              }`}
+          >
+            {type.toUpperCase()}
+          </button>
+        ))}
+      </div>
 
-        {/* main vertical line */}
+      <div className="relative max-w-5xl mx-auto">
+        {/* main line */}
         <div className="absolute left-6 md:left-1/2 top-0 w-[2px] h-full bg-white/10" />
 
-        {/* animated progress line */}
+        {/* animated line */}
         <motion.div
           style={{ scaleY }}
-          className="absolute left-6 md:left-1/2 top-0 w-[2px] h-full origin-top
-                     bg-gradient-to-b from-pink-500 via-blue-500 to-purple-500"
+          className="absolute left-6 md:left-1/2 top-0 w-[2px] h-full origin-top bg-gradient-to-b from-pink-500 via-blue-500 to-purple-500"
         />
 
         <div className="space-y-20">
-
-          {timeline.map((item, index) => (
+          {filteredTimeline.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 40 }}
@@ -128,42 +153,33 @@ export default function CareerTimeline() {
                 index % 2 === 0 ? "md:justify-start" : "md:justify-end"
               }`}
             >
-
               {/* node */}
               <div className="absolute left-6 md:left-1/2 md:-translate-x-1/2 top-5">
                 <div className="w-5 h-5 rounded-full bg-white shadow-[0_0_25px_rgba(255,255,255,0.8)]"></div>
               </div>
 
-              {/* card wrapper */}
+              {/* card */}
               <div className="ml-14 md:ml-0 md:w-[45%] group">
-
-                <div className={`relative p-6 rounded-2xl border backdrop-blur-xl transition duration-500
-  ${item.minor 
-    ? "bg-white/3 border-white/5 opacity-70" 
-    : "bg-white/5 border-white/10 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]"
-  }`}>
-
-                  {/* floating icon */}
+                <div
+                  className={`relative p-6 rounded-2xl border backdrop-blur-xl transition duration-500
+                  ${
+                    item.minor
+                      ? "bg-white/3 border-white/5 opacity-70"
+                      : "bg-white/5 border-white/10 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]"
+                  }`}
+                >
                   <div className="text-2xl mb-3">{item.icon}</div>
 
-                  {/* type badge */}
-                  <div className={`inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r ${item.color} mb-3`}>
+                  <div
+                    className={`inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r ${item.color} mb-3`}
+                  >
                     {item.type.toUpperCase()}
                   </div>
 
-                  <h3 className="text-xl font-semibold">
-                    {item.title}
-                  </h3>
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p className="text-gray-400 mt-1">{item.org}</p>
+                  <p className="text-gray-500 text-sm mt-1">{item.time}</p>
 
-                  <p className="text-gray-400 mt-1">
-                    {item.org}
-                  </p>
-
-                  <p className="text-gray-500 text-sm mt-1">
-                    {item.time}
-                  </p>
-
-                  {/* details */}
                   {item.points && (
                     <ul className="mt-4 space-y-2 text-gray-300 text-sm list-disc ml-5">
                       {item.points.map((p, i) => (
@@ -172,15 +188,11 @@ export default function CareerTimeline() {
                     </ul>
                   )}
 
-                  {/* glow hover effect */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500
-                                  bg-gradient-to-r from-pink-500/5 to-blue-500/5 pointer-events-none" />
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-pink-500/5 to-blue-500/5 pointer-events-none" />
                 </div>
-
               </div>
             </motion.div>
           ))}
-
         </div>
       </div>
     </section>
