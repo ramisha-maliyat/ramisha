@@ -40,7 +40,7 @@ export default function Projects() {
   return (
     <section id="projects" className="relative px-6 py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Work" title="Selected Projects" />
+        <SectionHeading eyebrow="Work" title="Projects" />
 
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((p, i) => (

@@ -80,7 +80,7 @@ export default function Hero() {
           {/* buttons */}
           <motion.div {...fade(0.4)} className="mt-9 flex flex-wrap gap-4">
             <a
-              href="/cv.pdf"
+              href="/CV.pdf"
               download
               className="rounded-xl bg-teal-400 px-6 py-3 font-semibold text-slate-950 shadow-lg shadow-teal-500/20 transition hover:-translate-y-0.5 hover:bg-teal-300"
             >
