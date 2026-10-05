@@ -1,110 +1,71 @@
 "use client";
 
 import { motion } from "framer-motion";
+import SectionHeading from "./SectionHeading";
 
 const projects = [
   {
-    title: "Transcom Electronics Chatbot",
-    desc: "AI-powered customer support chatbot handling product queries, policies, and showroom information with real-time Firebase logging and LLaMA 3 integration via Groq API.",
-    tag: "AI + Full Stack",
-    color: "from-orange-500 to-pink-500",
+    title: "Canteen Management System",
+    desc: "Vendor and customer based canteen platform with an admin stock check report and Supabase database functions (RPC).",
+    tech: ["Next.js", "TypeScript", "Supabase"],
   },
   {
-  title: "Timr.MR - Global Time Platform",
-  desc: "Built a production-ready global time platform with real-time clock synchronization, timezone conversion, dynamic city pages, countdown timers, stopwatch functionality, calendar integration, and responsive cross-device support using Next.js, TypeScript, Tailwind CSS, and Framer Motion.",
-  tag: "Full Stack + Real-Time",
-  color: "from-cyan-500 to-blue-500",
-},
+    title: "Timr.MR – Global Time Platform",
+    desc: "Production web app with real-time clocks, timezone conversion, dynamic city pages, countdowns, stopwatch and calendar tools, responsive across devices.",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+  },
+  {
+    title: "Transcom Electronics Chatbot",
+    desc: "AI support assistant answering product, policy and showroom queries, with real-time Firebase logging and LLaMA 3 via the Groq API.",
+    tech: ["LLaMA 3", "Groq API", "Firebase"],
+  },
   {
     title: "Business Analytics Dashboard (Demo)",
-    desc: "Designed a simulated analytics system using Looker and BigQuery-style SQL modeling to visualize revenue, product performance, and regional insights.",
-    tag: "Looker + Data Analytics",
-    color: "from-blue-500 to-cyan-500",
+    desc: "Demo analytics model using Looker and BigQuery-style SQL to visualise revenue, product performance and regional insights.",
+    tech: ["Looker", "BigQuery", "SQL"],
   },
   {
-    title: "Cloudways",
-    desc: "Airline ticketing system built with Java and database integration for booking and management operations.",
-    tag: "Java + DBMS",
-    color: "from-pink-500 to-red-500",
+    title: "Autism Detection & Emotion Recognition",
+    desc: "Undergraduate thesis: deep learning system for autism detection and facial emotion recognition.",
+    tech: ["Python", "Deep Learning"],
   },
   {
-    title: "Autism Detection System",
-    desc: "Deep learning-based system for autism detection and facial emotion recognition using AI models.",
-    tag: "AI + Deep Learning",
-    color: "from-green-500 to-emerald-500",
-  },
-  {
-    title: "Cross Cinema",
-    desc: "Web-based movie ticketing platform with full database integration and user management system.",
-    tag: "Web App",
-    color: "from-purple-500 to-indigo-500",
-  },
-  {
-    title: "Cake Baking Website",
-    desc: "Responsive frontend website for a bakery business with modern UI design and smooth user experience.",
-    tag: "Frontend",
-    color: "from-yellow-400 to-orange-400",
+    title: "Cloudways & Cross Cinema",
+    desc: "Airline and cinema ticketing systems with booking, user management and full database integration.",
+    tech: ["Java", "HTML/CSS", "SQL"],
   },
 ];
 
 export default function Projects() {
   return (
-    <section
-      id="projects"
-      className="relative bg-black text-white py-28 px-6 overflow-hidden"
-    >
-      {/* background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.08),transparent_60%)]"></div>
+    <section id="projects" className="relative px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading eyebrow="Work" title="Selected Projects" />
 
-      {/* title */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-5xl font-bold text-center mb-16"
-      >
-        Projects
-      </motion.h2>
-
-      <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-        {projects.map((project, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group relative"
-          >
-            {/* glow layer */}
-            <div
-              className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 blur-xl
-                         bg-gradient-to-r from-pink-500/20 to-blue-500/20"
-            ></div>
-
-            {/* card */}
-            <div
-              className="relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl
-                         transition duration-300 hover:scale-[1.03] hover:border-white/30"
+        <div className="grid gap-6 md:grid-cols-2">
+          {projects.map((p, i) => (
+            <motion.article
+              key={p.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: (i % 2) * 0.1 }}
+              className="group flex flex-col rounded-2xl border border-white/10 bg-surface/60 p-6 transition hover:-translate-y-1 hover:border-accent/40"
             >
-              {/* badge */}
-              <div
-                className={`inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r ${project.color} mb-4`}
-              >
-                {project.tag}
-              </div>
-
-              <h3 className="text-xl font-semibold mb-2">
-                {project.title}
+              <h3 className="text-lg font-semibold text-white transition group-hover:text-accent">
+                {p.title}
               </h3>
-
-              <p className="text-gray-400 leading-relaxed">
-                {project.desc}
-              </p>
-
-              {/* hover underline */}
-              <div className="mt-4 h-[2px] w-0 group-hover:w-full transition-all duration-500 bg-gradient-to-r from-pink-500 to-blue-500"></div>
-            </div>
-          </motion.div>
-        ))}
+              <p className="mt-2 flex-1 leading-relaxed text-muted">{p.desc}</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {p.tech.map((t) => (
+                  <span key={t} className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-300">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );

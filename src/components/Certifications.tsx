@@ -1,101 +1,75 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import SectionHeading from "./SectionHeading";
 
-type Certificate = {
-  title: string;
-  platform: string;
-  desc: string;
-  color: string;
-  image: string;
-};
+type Certificate = { title: string; platform: string; desc: string; image: string };
 
 const certificates: Certificate[] = [
   {
     title: "Data Visualization with Looker",
     platform: "Coursera",
-    desc: "Learned data modeling, dashboards, and business analytics using Looker.",
-    color: "from-blue-500 to-cyan-500",
-    image: "/certificates/looker-certificate.jpg",
+    desc: "Data modelling, dashboards and business analytics using Looker.",
+    image: "/certificates/looker-certificate.png",
   },
 ];
 
 export default function Certifications() {
-  // ✅ MOVE HERE (inside component)
-  const [selectedCert, setSelectedCert] =
-    useState<Certificate | null>(null);
+  const [selected, setSelected] = useState<Certificate | null>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setSelected(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
-   <section
-  id="certifications"
-  className="relative bg-black text-white py-28 px-6 overflow-hidden scroll-mt-24"
->
-    
-      {/* Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.10),transparent_60%)]"></div>
+    <section id="certifications" className="relative px-6 py-24">
+      <div className="mx-auto max-w-3xl">
+        <SectionHeading eyebrow="Credentials" title="Certifications" />
 
-      {/* Section Title */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-5xl font-bold text-center mb-16 relative z-10"
-      >
-        Certifications
-      </motion.h2>
-
-      {/* Certificates */}
-      <div className="max-w-4xl mx-auto space-y-6 relative z-10">
-        {certificates.map((cert, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.02 }}
-            onClick={() => setSelectedCert(cert)}
-            className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl cursor-pointer hover:border-blue-500 transition-all duration-300"
-          >
-            <div
-              className={`inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r ${cert.color} mb-3`}
+        <div className="space-y-5">
+          {certificates.map((c) => (
+            <motion.button
+              key={c.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              onClick={() => setSelected(c)}
+              className="w-full rounded-2xl border border-white/10 bg-surface/60 p-6 text-left transition hover:border-accent/40"
             >
-              {cert.platform}
-            </div>
-
-            <h3 className="text-xl font-semibold">{cert.title}</h3>
-
-            <p className="text-gray-400 mt-2">{cert.desc}</p>
-
-            <p className="mt-4 text-blue-400 text-sm">
-              Click to view certificate →
-            </p>
-          </motion.div>
-        ))}
+              <span className="text-xs font-semibold uppercase tracking-widest text-accent">{c.platform}</span>
+              <h3 className="mt-2 text-lg font-semibold text-white">{c.title}</h3>
+              <p className="mt-2 text-muted">{c.desc}</p>
+              <p className="mt-4 text-sm text-accent">View certificate →</p>
+            </motion.button>
+          ))}
+        </div>
       </div>
 
-      {/* Modal */}
-      {selectedCert && (
+      {selected && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedCert(null)}
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+          onClick={() => setSelected(null)}
         >
-          <div
-            className="relative max-w-5xl w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
             <button
-              onClick={() => setSelectedCert(null)}
-              className="absolute -top-12 right-0 text-white text-4xl hover:text-blue-400"
+              onClick={() => setSelected(null)}
+              aria-label="Close"
+              className="absolute -top-12 right-0 text-4xl text-white hover:text-accent"
             >
               ×
             </button>
-
             <Image
-              src={selectedCert.image}
-              alt={selectedCert.title}
+              src={selected.image}
+              alt={selected.title}
               width={1200}
               height={800}
-              className="rounded-xl w-full h-auto shadow-2xl"
+              className="h-auto w-full rounded-xl shadow-2xl"
             />
           </div>
         </div>

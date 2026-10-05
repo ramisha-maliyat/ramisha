@@ -1,21 +1,34 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import SectionHeading from "./SectionHeading";
 
-const timeline = [
+type Item = {
+  type: "work" | "edu";
+  title: string;
+  org: string;
+  time: string;
+  points?: string[];
+};
+
+const timeline: Item[] = [
   {
     type: "work",
-    title: "Junior Developer",
+    title: "Software Developer",
     org: "Bangladesh Lamps PLC",
-    time: "Aug 2025 – Present",
-    icon: "💼",
-    color: "from-pink-500 to-red-500",
+    time: "Jul 2026 – Present",
+  },
+  {
+    type: "work",
+    title: "Executive Software Developer",
+    org: "People's Scape Ltd, working at Bangladesh Lamps PLC",
+    time: "Aug 2025 – Jun 2026",
     points: [
-      "Developed and enhanced enterprise systems",
-      "Built analytics dashboards using Looker",
-      "Optimized SQL queries & API integrations",
-      "Supported SAP and business operations",
+      "Designed and automated a sales analytics data warehouse in BigQuery and SQL",
+      "Built Looker reports and dashboards; optimised queries to reduce processing time",
+      "Developed business applications and REST APIs using C#/.NET and SQL Server",
+      "Deployed production dashboards (IIS), ran UAT and supported about 225 users",
     ],
   },
   {
@@ -23,174 +36,73 @@ const timeline = [
     title: "MIS & IT Intern",
     org: "Transcom Electronics",
     time: "May 2025 – Aug 2025",
-    icon: "🧠",
-    color: "from-blue-500 to-cyan-500",
     points: [
-      "Worked on system testing and WordPress updates",
-      "Improved SQL queries for reporting systems",
-      "Supported invoicing & internal tools",
+      "Supported software testing and WordPress updates",
+      "Modified SQL queries for business performance reports",
+      "Assisted with invoicing and internal system improvements",
     ],
   },
-  {
-    type: "edu",
-    title: "BSc in CSE",
-    org: "AUST",
-    time: "2021 – 2025 | CGPA: 3.349",
-    icon: "🎓",
-    color: "from-green-500 to-emerald-500",
-  },
-  {
-    type: "edu",
-    title: "HSC",
-    org: "Viqarunnisa Noon College",
-    time: "2020 | GPA: 5.00",
-    icon: "📘",
-    color: "from-purple-500 to-indigo-500",
-  },
-  {
-    type: "edu",
-    title: "SSC",
-    org: "Viqarunnisa Noon College",
-    time: "2018 | GPA: 5.00",
-    icon: "📗",
-    color: "from-yellow-500 to-orange-500",
-  },
-  {
-    type: "edu",
-    title: "JSC",
-    org: "Viqarunnisa Noon School",
-    time: "2015 | GPA: 5.00",
-    icon: "📙",
-    color: "from-indigo-400 to-blue-400",
-    minor: true,
-  },
-  {
-    type: "edu",
-    title: "PEC",
-    org: "Viqarunnisa Noon School",
-    time: "2012 | GPA: 5.00",
-    icon: "📒",
-    color: "from-gray-400 to-gray-500",
-    minor: true,
-  },
+  { type: "edu", title: "BSc in Computer Science & Engineering", org: "Ahsanullah University of Science and Technology", time: "2021 – 2025 · CGPA 3.349 / 4.00" },
+  { type: "edu", title: "Higher Secondary Certificate", org: "Viqarunnisa Noon School and College", time: "2020 · GPA 5.00" },
+  { type: "edu", title: "Secondary School Certificate", org: "Viqarunnisa Noon School and College", time: "2018 · GPA 5.00" },
+];
+
+const filters = [
+  { id: "all", label: "All" },
+  { id: "work", label: "Experience" },
+  { id: "edu", label: "Education" },
 ];
 
 export default function CareerTimeline() {
-  const ref = useRef(null);
-
-  const [filter, setFilter] = useState("all"); // 👈 NEW
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const scaleY = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 25,
-  });
-
-  // 👇 FILTER LOGIC (NO DATA CHANGE)
-  const filteredTimeline = timeline.filter((item) => {
-    if (filter === "all") return true;
-    return item.type === filter;
-  });
+  const [filter, setFilter] = useState("all");
+  const items = timeline.filter((i) => filter === "all" || i.type === filter);
 
   return (
-    <section
-      id="career"
-      ref={ref}
-      className="relative bg-black text-white py-28 px-6 overflow-hidden"
-    >
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.08),transparent_60%)]"></div>
+    <section id="career" className="relative bg-surface/40 px-6 py-24">
+      <div className="mx-auto max-w-3xl">
+        <SectionHeading eyebrow="Journey" title="Experience & Education" />
 
-      {/* Title */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-5xl font-bold text-center mb-10"
-      >
-        Career Timeline
-      </motion.h2>
-
-      {/* FILTER BUTTONS */}
-      <div className="flex justify-center gap-4 mb-14">
-        {["all", "work", "edu"].map((type) => (
-          <button
-            key={type}
-            onClick={() => setFilter(type)}
-            className={`px-4 py-2 rounded-full text-sm border transition
-              ${
-                filter === type
-                  ? "bg-white text-black"
-                  : "border-white/20 text-white/70 hover:text-white"
-              }`}
-          >
-            {type.toUpperCase()}
-          </button>
-        ))}
-      </div>
-
-      <div className="relative max-w-5xl mx-auto">
-        {/* main line */}
-        <div className="absolute left-6 md:left-1/2 top-0 w-[2px] h-full bg-white/10" />
-
-        {/* animated line */}
-        <motion.div
-          style={{ scaleY }}
-          className="absolute left-6 md:left-1/2 top-0 w-[2px] h-full origin-top bg-gradient-to-b from-pink-500 via-blue-500 to-purple-500"
-        />
-
-        <div className="space-y-20">
-          {filteredTimeline.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className={`relative flex flex-col md:flex-row ${
-                index % 2 === 0 ? "md:justify-start" : "md:justify-end"
+        <div className="mb-12 flex justify-center gap-3">
+          {filters.map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setFilter(f.id)}
+              className={`rounded-full border px-4 py-1.5 text-sm transition ${
+                filter === f.id
+                  ? "border-accent bg-accent text-slate-950"
+                  : "border-white/15 text-muted hover:text-white"
               }`}
             >
-              {/* node */}
-              <div className="absolute left-6 md:left-1/2 md:-translate-x-1/2 top-5">
-                <div className="w-5 h-5 rounded-full bg-white shadow-[0_0_25px_rgba(255,255,255,0.8)]"></div>
-              </div>
+              {f.label}
+            </button>
+          ))}
+        </div>
 
-              {/* card */}
-              <div className="ml-14 md:ml-0 md:w-[45%] group">
-                <div
-                  className={`relative p-6 rounded-2xl border backdrop-blur-xl transition duration-500
-                  ${
-                    item.minor
-                      ? "bg-white/3 border-white/5 opacity-70"
-                      : "bg-white/5 border-white/10 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]"
-                  }`}
-                >
-                  <div className="text-2xl mb-3">{item.icon}</div>
-
-                  <div
-                    className={`inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r ${item.color} mb-3`}
-                  >
-                    {item.type.toUpperCase()}
-                  </div>
-
-                  <h3 className="text-xl font-semibold">{item.title}</h3>
-                  <p className="text-gray-400 mt-1">{item.org}</p>
-                  <p className="text-gray-500 text-sm mt-1">{item.time}</p>
-
-                  {item.points && (
-                    <ul className="mt-4 space-y-2 text-gray-300 text-sm list-disc ml-5">
-                      {item.points.map((p, i) => (
-                        <li key={i}>{p}</li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-pink-500/5 to-blue-500/5 pointer-events-none" />
-                </div>
-              </div>
+        <div className="relative border-l border-white/15 pl-8">
+          {items.map((item) => (
+            <motion.div
+              key={item.title + item.time}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative mb-10 last:mb-0"
+            >
+              <span
+                className={`absolute -left-[37px] top-2 h-3 w-3 rounded-full border-2 border-background ${
+                  item.type === "work" ? "bg-accent" : "bg-accent-2"
+                }`}
+              />
+              <p className="text-xs font-medium uppercase tracking-widest text-muted">{item.time}</p>
+              <h3 className="mt-1 text-lg font-semibold text-white">{item.title}</h3>
+              <p className="text-sm text-accent">{item.org}</p>
+              {item.points && (
+                <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-300 marker:text-muted">
+                  {item.points.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              )}
             </motion.div>
           ))}
         </div>

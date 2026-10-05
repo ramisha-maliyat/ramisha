@@ -1,52 +1,86 @@
 @import "tailwindcss";
 
+/* ---------- Design tokens: one calm, corporate palette ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #070b14;
+  --surface: #0f1629;
+  --foreground: #e2e8f0;
+  --muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --accent: #2dd4bf; /* teal */
+  --accent-2: #6366f1; /* indigo */
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* keeps any component that still uses `animate-spin-slow` working */
+  --animate-spin-slow: spin-slow 14s linear infinite;
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-
-html {
-  scroll-behavior: smooth;
+section {
+  scroll-margin-top: 90px; /* space for the sticky navbar */
 }
 
-body {
-  background: black;
-  color: white;
+::selection {
+  background: rgba(45, 212, 191, 0.3);
+  color: #fff;
 }
 
-/* subtle custom scrollbar */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- Subtle scrollbar ---------- */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #ec4899, #3b82f6);
+  background: linear-gradient(to bottom, var(--accent), var(--accent-2));
   border-radius: 10px;
 }
-.animate-spin-slow:hover {
-  animation-duration: 2s;
-}
-section {
-  scroll-margin-top: 90px;
+
+/* ---------- Accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
