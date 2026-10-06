@@ -134,7 +134,7 @@ export default function Hero() {
 
             <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-[#070B14]">
               <Image
-                src="/profile.jpeg"
+                src="/profile-soft.jpeg"
                 alt="Shaikh Ramisha Maliyat"
                 fill
                 sizes="(min-width: 768px) 320px, 256px"
@@ -145,7 +145,7 @@ export default function Hero() {
 
             {/* floating badge */}
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/15 bg-[#0F1629]/90 px-4 py-1.5 text-xs text-slate-200 backdrop-blur-md">
-              Officer, MIS &amp; IT · Bangladesh Lamps PLC
+              Software Developer, MIS &amp; IT · Bangladesh Lamps PLC
             </div>
           </div>
         </motion.div>
