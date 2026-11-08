@@ -43,7 +43,7 @@ export default function CareerTimeline() {
   return (
     <section id="career" className="relative bg-surface/40 px-6 py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Journey" title="Experience & Education" />
+        <SectionHeading eyebrow="02 — Experience" title="Experience & Education" />
 
         {/* journey strip */}
         <div className="relative mb-14 grid gap-8 md:grid-cols-3">
@@ -53,7 +53,7 @@ export default function CareerTimeline() {
               <span className="absolute left-0 top-0 hidden md:block">
                 <span className="relative flex h-6 w-6 items-center justify-center">
                   {m.now && <span className="absolute h-6 w-6 animate-ping rounded-full bg-accent/40" />}
-                  <span className="h-4 w-4 rounded-full border-2 border-background bg-accent shadow-[0_0_18px_rgba(45,212,191,0.8)]" />
+                  <span className="h-4 w-4 rounded-full border-2 border-background bg-accent shadow-[0_0_18px_rgba(251,191,36,0.8)]" />
                 </span>
               </span>
               <p className="text-xs font-semibold uppercase tracking-widest text-accent">
@@ -88,9 +88,6 @@ export default function CareerTimeline() {
             <h3 className="mt-4 text-xl font-semibold text-white">BSc in Computer Science &amp; Engineering</h3>
             <p className="text-sm text-slate-300">Ahsanullah University of Science and Technology</p>
             <div className="mt-3 flex items-center gap-3">
-              <span className="rounded-full border border-accent-2/40 bg-accent-2/10 px-3 py-1 text-xs font-semibold text-indigo-300">
-                CGPA 3.349 / 4.00
-              </span>
               <span className="text-xs uppercase tracking-widest text-muted">2021 – 2025</span>
             </div>
 

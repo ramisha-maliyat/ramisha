@@ -5,6 +5,8 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import CareerTimeline from "@/components/CareerTimeline";
 import Projects from "@/components/Projects";
+import BackgroundFX from "@/components/BackgroundFX";
+import GitHubActivity from "@/components/Githubactivity";
 import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
@@ -44,20 +46,22 @@ export default function Home() {
 
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-teal-400 focus:px-4 focus:py-2 focus:text-slate-950"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-amber-400 focus:px-4 focus:py-2 focus:text-slate-950"
       >
         Skip to content
       </a>
 
+      <BackgroundFX />
       <ScrollProgress />
 
       <PageWrapper>
         <Navbar />
-        <main id="main">
+        <main id="main" className="relative z-10">
           <Hero />
           <About />
           <CareerTimeline />
           <Projects />
+          <GitHubActivity />
           <Skills />
           <Certifications />
           <Contact />

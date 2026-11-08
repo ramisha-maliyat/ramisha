@@ -1,59 +1,81 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import SectionHeading from "./SectionHeading";
 
-const items = [
-  { label: "Email", value: "ramisha4627@gmail.com", href: "mailto:ramisha4627@gmail.com" },
-  { label: "Location", value: "Dhaka, Bangladesh" },
-  { label: "Resume", value: "Download my CV (PDF)", href: "/cv.pdf" },
-];
+const EMAIL = "ramisha4627@gmail.com";
+const sitemap = [["about", "About"], ["career", "Experience"], ["skills", "Tech Stack"], ["projects", "Projects"]];
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  };
+
   return (
-    <section id="contact" className="relative bg-surface/40 px-6 py-24">
+    <section id="contact" className="relative px-6 pt-24">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mx-auto max-w-4xl text-center"
+        className="mx-auto max-w-3xl text-center"
       >
-        <SectionHeading eyebrow="Contact" title="Let's work together" />
-        <p className="-mt-6 mb-12 text-muted">
-          Open to software development and data engineering roles. Send me a message and I&apos;ll reply
-          as soon as I can.
+        <p className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5 text-xs text-slate-300">
+          <span className="h-2 w-2 rounded-full bg-emerald-400" /> Open to new opportunities
+        </p>
+        <h2 className="mt-6 text-4xl font-bold tracking-tight sm:text-6xl">
+          Let&apos;s build<br />something great.
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl text-muted">
+          Have a role or project in mind? Send me a message and I&apos;ll reply as soon as I can.
         </p>
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {items.map((it) => {
-            const body = (
-              <>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-accent">{it.label}</h3>
-                <p className="mt-2 break-all text-slate-200">{it.value}</p>
-              </>
-            );
-            const cls =
-              "rounded-2xl border border-white/10 bg-surface/60 p-6 transition hover:border-accent/40";
-            return it.href ? (
-              <a key={it.label} href={it.href} {...(it.label === "Resume" ? { download: true } : {})} className={cls}>
-                {body}
-              </a>
-            ) : (
-              <div key={it.label} className={cls}>{body}</div>
-            );
-          })}
-        </div>
-
-        <a
-          href="mailto:ramisha4627@gmail.com"
-          className="mt-10 inline-block rounded-xl bg-accent px-8 py-3 font-semibold text-slate-950 shadow-lg shadow-teal-500/20 transition hover:-translate-y-0.5 hover:bg-teal-300"
+        <button
+          onClick={copy}
+          className="mt-8 inline-flex items-center gap-3 rounded-full border border-white/10 px-5 py-2.5 text-sm transition hover:border-accent"
         >
-          Send Email
-        </a>
+          {EMAIL} <span className="text-xs text-accent">{copied ? "Copied ✓" : "Copy"}</span>
+        </button>
 
-        <p className="mt-16 text-xs text-muted">© {new Date().getFullYear()} Shaikh Ramisha Maliyat</p>
+        <div className="mt-4">
+          <a
+            href={`mailto:${EMAIL}`}
+            className="inline-block w-full max-w-sm rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-accent"
+          >
+            Send an email ↗
+          </a>
+        </div>
       </motion.div>
+
+      <footer className="mx-auto mt-24 grid max-w-6xl gap-10 border-t border-white/10 py-12 sm:grid-cols-[1.5fr_1fr_1fr]">
+        <div>
+          <p className="text-lg font-semibold">Ramisha<span className="text-accent">.</span></p>
+          <p className="mt-3 max-w-xs text-sm text-muted">
+            Software developer building reliable systems and trusted data. Based in Dhaka, Bangladesh.
+          </p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">Sitemap</p>
+          <ul className="mt-3 space-y-2 text-sm">
+            {sitemap.map(([id, l]) => (
+              <li key={id}><a href={`#${id}`} className="transition hover:text-accent">{l}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">Get in touch</p>
+          <ul className="mt-3 space-y-2 text-sm">
+            <li><a href={`mailto:${EMAIL}`} className="transition hover:text-accent">Email</a></li>
+            <li><a href="/cv.pdf" download className="transition hover:text-accent">Download CV</a></li>
+          </ul>
+        </div>
+        <p className="text-xs text-muted sm:col-span-3">© {new Date().getFullYear()} Shaikh Ramisha Maliyat</p>
+      </footer>
     </section>
   );
 }

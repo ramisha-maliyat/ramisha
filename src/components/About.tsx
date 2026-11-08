@@ -14,7 +14,7 @@ export default function About() {
   return (
     <section id="about" className="relative px-6 py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="About" title="Building reliable software and trusted data" align="left" />
+        <SectionHeading eyebrow="01 — Who I am" title="Building reliable software and trusted data" />
 
         <div className="grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr]">
           <motion.div

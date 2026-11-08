@@ -12,7 +12,7 @@ const certificates: Certificate[] = [
     title: "Data Visualization with Looker",
     platform: "Coursera",
     desc: "Data modelling, dashboards and business analytics using Looker.",
-    image: "/certificates/looker-certificate.png",
+    image: "/certificates/looker-certificate.jpg",
   },
 ];
 
@@ -28,7 +28,7 @@ export default function Certifications() {
   return (
     <section id="certifications" className="relative px-6 py-24">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading eyebrow="Credentials" title="Certifications" />
+        <SectionHeading eyebrow="05 — Recognition" title="Achievements & certificates" align="left" />
 
         <div className="space-y-5">
           {certificates.map((c) => (

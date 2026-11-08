@@ -1,67 +1,66 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const sections = ["about", "career", "projects", "skills", "certifications", "contact"];
+const links = [
+  ["about", "About"],
+  ["career", "Experience"],
+  ["skills", "Tech Stack"],
+  ["projects", "Projects"],
+  ["github", "GitHub"],
+  ["certifications", "Achievements"],
+  ["contact", "Contact"],
+];
 
 export default function Navbar() {
-  const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const pos = window.scrollY + window.innerHeight * 0.35;
-      let current = "";
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el && pos >= el.offsetTop && pos < el.offsetTop + el.offsetHeight) current = id;
-      }
-      setActive(current);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const link = (id: string) =>
-    `text-sm capitalize transition ${active === id ? "text-accent" : "text-muted hover:text-white"}`;
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#home" className="font-semibold tracking-wide text-white">
-          Ramisha <span className="text-accent">Maliyat</span>
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
+        <a href="#home" className="text-lg font-semibold tracking-tight">
+          Ramisha<span className="text-accent">.</span>
         </a>
 
-        <div className="hidden items-center gap-7 md:flex">
-          {sections.map((id) => (
-            <a key={id} href={`#${id}`} className={link(id)}>{id}</a>
-          ))}
+        <div className="flex items-center gap-3">
+          <div className="mr-4 hidden items-center gap-6 lg:flex">
+            {links.map(([id, label]) => (
+              <a key={id} href={`#${id}`} className="text-sm text-muted transition hover:text-white">
+                {label}
+              </a>
+            ))}
+          </div>
           <a
             href="/cv.pdf"
             download
-            className="rounded-lg border border-accent/50 px-4 py-1.5 text-sm font-medium text-accent transition hover:bg-accent hover:text-slate-950"
+            className="rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-black transition hover:bg-accent"
           >
-            Download CV
+            Resume ↓
           </a>
+          <button
+            aria-label="Menu"
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-lg lg:hidden"
+          >
+            {open ? "×" : "≡"}
+          </button>
         </div>
-
-        <button
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen(!open)}
-          className="text-2xl text-white md:hidden"
-        >
-          {open ? "×" : "☰"}
-        </button>
       </div>
 
       {open && (
-        <div className="flex flex-col gap-4 border-t border-white/10 px-6 py-5 md:hidden">
-          {sections.map((id) => (
-            <a key={id} href={`#${id}`} onClick={() => setOpen(false)} className={link(id)}>{id}</a>
+        <div className="border-t border-white/10 bg-background px-6 py-4 lg:hidden">
+          {links.map(([id, label], i) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-4 border-b border-white/5 py-3 text-sm last:border-0"
+            >
+              <span className="text-xs text-accent">0{i + 1}</span>
+              {label}
+            </a>
           ))}
-          <a href="/cv.pdf" download className="text-sm font-medium text-accent">Download CV</a>
         </div>
       )}
     </nav>
