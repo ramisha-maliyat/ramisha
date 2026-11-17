@@ -31,7 +31,7 @@ export default function Navbar() {
             ))}
           </div>
           <a
-            href="/cv.pdf"
+            href="/CV.pdf"
             download
             className="rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-black transition hover:bg-accent"
           >
